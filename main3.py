@@ -18,15 +18,13 @@ def main():
         _ret, img = cam.read()
 
         findEyes(img, eye_cascade)
-        cv.imshow('facedetect', img)
+        if (findEyes(img, eye_cascade) == 'EyesNotFound'):
+            cv.putText(img, "Eye not detected", (50,50), cv.FONT_HERSHEY_PLAIN, 3,(0,255,0),2)
+        cv.imshow('Eye detection', img)
 
         if cv.waitKey(5) == 27:
             break
         
-        if (findEyes(img, eye_cascade) == 'EyesNotFound'):
-            print('Eyes not found')
-            break
-
 if __name__ == '__main__':
     main()
     cv.destroyAllWindows()
