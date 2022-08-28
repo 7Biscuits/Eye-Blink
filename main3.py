@@ -1,6 +1,7 @@
 import numpy as np
 import cv2 as cv
-import time
+import threading
+import time 
 
 def findEyes(img, eyeCascade):
     grayImg = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
@@ -9,6 +10,10 @@ def findEyes(img, eyeCascade):
         return 'EyesNotFound'
     for (ex, ey, ew, eh) in eyes:
         cv.rectangle(img, (ex, ey), (ex+ew, ey+eh), ( 0, 255, 0), 2)
+
+def Hello():
+    print("Hello")
+    t.stop()
 
 def main():
     eye_cascade = cv.CascadeClassifier('haarcascade_eye.xml')
@@ -19,7 +24,10 @@ def main():
 
         findEyes(img, eye_cascade)
         if (findEyes(img, eye_cascade) == 'EyesNotFound'):
-            cv.putText(img, "Eye not detected", (50,50), cv.FONT_HERSHEY_PLAIN, 3,(0,255,0),2)
+            cv.putText(img, "Eye not detected", (50, 50), cv.FONT_HERSHEY_PLAIN, 3,(0,255,0),2)
+            t = threading.Timer(5, Hello)
+            t.start()
+
         cv.imshow('Eye detection', img)
 
         if cv.waitKey(5) == 27:
